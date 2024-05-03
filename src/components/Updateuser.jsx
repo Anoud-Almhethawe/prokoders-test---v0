@@ -53,7 +53,7 @@ const Updateuser = () => {
                   placeholder="name..."
                   onChange={newUser}
                   value={updateData && updateData.name}
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
                 />
               </div>
               <div className="mb-3">
@@ -65,7 +65,7 @@ const Updateuser = () => {
                   name="username"
                   onChange={newUser}
                   value={updateData && updateData.username}
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
                 />
               </div>
 

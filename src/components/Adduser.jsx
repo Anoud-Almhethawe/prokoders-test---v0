@@ -51,13 +51,13 @@ const Adduser = () => {
                   name="name"
                   placeholder="name..."
                   onChange={getUserData}
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight  text-white shadow focus:outline-none"
                 />
               </div>
               <div className="mb-3">
                 <label className="">Username: </label>
                 <input
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white  shadow focus:outline-none"
                   type="text"
                   placeholder="username..."
                   name="username"
