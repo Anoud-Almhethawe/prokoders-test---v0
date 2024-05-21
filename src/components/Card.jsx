@@ -3,9 +3,23 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteUser } from "../redux/users";
 import { small } from "../assets";
+import { toast } from "react-toastify";
 
 const Card = ({ user }) => {
   const dispatch = useDispatch();
+
+  const handleDelete = (user) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      dispatch(deleteUser(user))
+        .unwrap()
+        .then(() => {
+          toast.success("User deleted successfully");
+        })
+        .catch((error) => {
+          toast.error(`Error: ${error.message}`);
+        });
+    }
+  };
 
   return (
     <>
@@ -24,7 +38,7 @@ const Card = ({ user }) => {
         <div className="  m-2 flex justify-between gap-5">
           <Link
             onClick={() => {
-              dispatch(deleteUser(user));
+              handleDelete(user);
             }}
             className="button cursor-pointer rounded-lg bg-indigo-700 p-2 text-[15px]"
           >

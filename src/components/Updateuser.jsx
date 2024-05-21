@@ -6,36 +6,52 @@ import { Gradient } from "./Hero";
 
 const Updateuser = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.app);
 
-  const [updateData, setUpdateData] = useState();
+  const [updateData, setUpdateData] = useState({
+    name: "",
+    username: "",
+  });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // dispatch(getUserById(id));
-    const filteredData = users.filter((item) => item.id === id);
-    setUpdateData(filteredData[0]);
-  }, []);
+    const filteredData = users.find((item) => item.id === id);
+    setUpdateData(filteredData || { name: "", username: "" });
+  }, [id, users]);
 
   const newUser = (e) => {
     setUpdateData({ ...updateData, [e.target.name]: e.target.value });
   };
 
+  const validate = () => {
+    const errors = {};
+    if (!updateData.name) {
+      errors.name = "Name is required";
+    }
+    if (!updateData.username) {
+      errors.username = "Username is required";
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     dispatch(updateUser(updateData));
     navigate("/");
   };
 
   return (
-    <section className="  min-h-screen  ">
+    <section className="min-h-screen">
       <div className="container relative">
         <Gradient />
       </div>
-
       <div className="flex min-h-screen flex-col justify-center py-1 sm:py-10">
         <div className="relative py-3 sm:mx-auto sm:max-w-xl">
           <div className="absolute inset-0 -skew-y-6 bg-gradient-to-r from-indigo-700 to-n-11 shadow-lg sm:-rotate-6 sm:skew-y-0 sm:rounded-3xl"></div>
@@ -44,7 +60,7 @@ const Updateuser = () => {
               <h1 className="text-3xl">Contact Us!</h1>
               <p className="text-gray-300">Fill up the form below.</p>
             </div>
-            <form className="mx-auto w-52 " onSubmit={handleSubmit}>
+            <form className="mx-auto w-52" onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="">New Name: </label>
                 <input
@@ -52,26 +68,28 @@ const Updateuser = () => {
                   name="name"
                   placeholder="name..."
                   onChange={newUser}
-                  value={updateData && updateData.name}
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
+                  value={updateData.name}
+                  className="mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
                 />
+                {errors.name && <p className="text-red-500">{errors.name}</p>}
               </div>
               <div className="mb-3">
-                <label className=""> New userName: </label>
-
+                <label className="">New Username: </label>
                 <input
                   type="text"
-                  placeholder="username..."
                   name="username"
+                  placeholder="username..."
                   onChange={newUser}
-                  value={updateData && updateData.username}
-                  className=" mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
+                  value={updateData.username}
+                  className="mb-4 w-full appearance-none rounded border px-3 py-2 leading-tight text-white shadow focus:outline-none"
                 />
+                {errors.username && (
+                  <p className="text-red-500">{errors.username}</p>
+                )}
               </div>
-
               <button
                 type="submit"
-                className="button cursor-pointer rounded-lg font-mono text-[15px] text-blue-600 hover:underline "
+                className="button cursor-pointer rounded-lg font-mono text-[15px] text-blue-600 hover:underline"
               >
                 Done
               </button>

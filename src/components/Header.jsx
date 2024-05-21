@@ -7,9 +7,12 @@ const Header = () => {
       bg-n-8/90 backdrop-blur-sm`}
     >
       <div className="l:px-7.5 flex items-center px-5 max-lg:py-1 xl:px-10 ">
-        <a className="mr-8  transition-colors hover:text-n-1 lg:block" href="/">
+        <div
+          className="mr-8  transition-colors hover:text-n-1 lg:block"
+          href="/"
+        >
           <Logo />
-        </a>
+        </div>
 
         <nav className="fixed inset-x-0 bottom-0 top-[80px] hidden bg-n-8 lg:static lg:mx-auto lg:flex lg:bg-transparent">
           <div

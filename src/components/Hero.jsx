@@ -21,7 +21,7 @@ const Hero = () => {
   const visibleUsers = users.slice(indexofFirstPage, indexOfLastPage);
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [dispatch, error]);
 
   return (
     <>
@@ -53,7 +53,11 @@ const Hero = () => {
           <div>
             <div>
               {loading && <Loading />}
-              {!loading && error ? <div>{error}</div> : null}
+              {!loading && error ? (
+                <div className="container z-50 mx-auto mt-5">
+                  <a href={"/"}>Go back to Home page</a>
+                </div>
+              ) : null}
               {!loading && users.length ? (
                 <div className="grid grid-cols-1 gap-14 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 ">
                   {visibleUsers.map((user) => (

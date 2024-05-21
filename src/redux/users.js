@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios from "axios";
+
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -8,7 +9,7 @@ const initialState = {
   users: [],
   error: "",
   userobj: {},
-  usersPerPage: 10,
+  usersPerPage: 8,
   currentPage: 1,
 };
 
@@ -19,9 +20,12 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
       "https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud"
     );
 
-    return response.data;
+    const sortedData = response.data.sort((a, b) => b.id - a.id);
+
+    return sortedData;
   } catch (error) {
-    return error;
+    toast.error(`Please try again , ${error.message}`);
+    throw error;
   }
 });
 export const getUserById = createAsyncThunk("getUserById", async (id) => {
@@ -29,60 +33,60 @@ export const getUserById = createAsyncThunk("getUserById", async (id) => {
     const response = await axios
       .get(`https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud/${id}`)
       .then((response) => response.data);
-
     return response;
   } catch (error) {
-    return error;
+    toast.error(`Please try again , ${error.message}`);
+    throw error;
   }
 });
 
 export const createUser = createAsyncThunk("createUser", async (data) => {
-  const response = await axios.post(
-    "https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud",
-    data
-  );
-  if (response.status === 201 || response.status === 200) {
-    toast.success("User Created successfully");
-  }
   try {
-    const result = await response.data;
-
+    const response = await axios.post(
+      "https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud",
+      data
+    );
+    if (response.status === 201 || response.status === 200) {
+      toast.success("User Created successfully");
+    }
+    const result = response.data;
     return result;
   } catch (error) {
-    return error;
+    toast.error(`Please try again , ${error.message}`);
+    throw error;
   }
 });
 
 export const updateUser = createAsyncThunk("updateUser", async (data) => {
-  const response = await axios.put(
-    `https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud/${data.id}`,
-    data
-  );
-  if (response.status === 200) {
-    toast.success("User Updated successfully");
-  }
   try {
-    const result = await response.data;
+    const response = await axios.put(
+      `https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud/${data.id}`,
+      data
+    );
+    if (response.status === 200) {
+      toast.success("User Updated successfully");
+    }
+
+    const result = response.data;
+
     return result;
   } catch (error) {
-    return error;
+    toast.error(`Please try again , ${error.message}`);
+    throw error;
   }
 });
 
 export const deleteUser = createAsyncThunk("deleteUser", async (data) => {
-  const response = await axios.delete(
-    `https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud/${data.id}`
-  );
-  if (response.status === 200) {
-    toast.success("User deleted successfully");
-  }
-
   try {
-    const result = await response.data;
+    const response = await axios.delete(
+      `https://6633d1dff7d50bbd9b4ac753.mockapi.io/crud/${data.id}`
+    );
+
+    const result = response.data;
     return result;
   } catch (error) {
     toast.error(`Please try again , ${error.message}`);
-    return error;
+    throw error;
   }
 });
 
